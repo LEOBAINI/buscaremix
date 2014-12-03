@@ -1,0 +1,2 @@
+select concat("C:/Documents and Settings/idmartin/Escritorio/Documentos Digitalizados/",numcaja,"/",sobre,barcode) 
+as "Ruta a buscar"from flexibar.archivo where barcode="WMEEJ8AA3EK764351";
