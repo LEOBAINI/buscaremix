@@ -3,6 +3,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 
@@ -13,20 +15,29 @@ import jxl.read.biff.BiffException;
 
 
 public class LectorExcel implements Runnable{
+	JProgressBar barCopia;
 	JProgressBar bar;
 	JProgressBar barQuery;
 	JTextArea area;
 	String ruta;
+	JButton buttonExaminar;
+	JButton buttonProcesar;
 	int columna=0;
-	public LectorExcel(JTextArea area,JProgressBar bar,JProgressBar barQuery,String ruta,int columna){
+	public LectorExcel(JTextArea area,JProgressBar bar,JProgressBar barQuery,JProgressBar barCopia,String ruta,JButton buttonExaminar, JButton buttonProcesar, int columna){
 		this.bar=bar;
 		this.area=area;
 		this.ruta=ruta;
 		this.columna=columna;
 		this.barQuery=barQuery;
+		this.barCopia=barCopia;
+		this.buttonExaminar=buttonExaminar;
+		this.buttonProcesar=buttonProcesar;
 	}
 
-	@Override
+	public void habilitarBotones(){
+		this.buttonExaminar.setEnabled(true);
+		this.buttonProcesar.setEnabled(true);
+	}
 	public void run() {
 		
 			Workbook workbook = null;
@@ -51,9 +62,10 @@ public class LectorExcel implements Runnable{
 			 bar.setMaximum(sheet.getRows()-1);
 			 bar.setBackground(Color.white);
 			// bar.setForeground(Color.GREEN.brighter());
-			 bar.setBorderPainted(true);
-			 
+			 bar.setBorderPainted(true);			 
 			 area.setAutoscrolls(true);
+			 
+			 
 			 for(int x=0;x<contenido.size();x++){
 				 area.append("LEYENDO\t\t"+contenido.get(x)+"\n");
 				 
@@ -65,9 +77,32 @@ public class LectorExcel implements Runnable{
 			 area.append("SE LEYERON \t\t"+contenido.size()+"FILAS");
 			
 			 area.setText("");
-			 Runnable gene=new GeneradorDeRutas(barQuery, contenido,area);				
-				new Thread(gene).start();//.start();
-			 
+		GeneradorDeRutas gene=new GeneradorDeRutas(barQuery, contenido,area);		
+		ArrayList<String>rutasArchivos=null;
+		rutasArchivos=gene.entregarRutas();
+		
+		ArrayList<String>rutasCompletas=new ArrayList<String>();
+		InicializadorDirectorios ini=new InicializadorDirectorios();
+		
+		String extension=null;
+		String rutaalaCarpeta=null;
+		for(int i=0;i<rutasArchivos.size();i++){
+			try{
+			rutaalaCarpeta=rutasArchivos.get(i).substring(0,rutasArchivos.get(i).lastIndexOf("/"));
+			
+			extension=ini.darExtension(rutasArchivos.get(i), rutaalaCarpeta);
+			
+			rutasCompletas.add(rutasArchivos.get(i)+extension);
+			
+			}catch(Exception e){
+				System.out.println(e.getMessage());
+			}
+			
+			}
+		ini.copiarArchivosAruta(rutasCompletas,"H:/DocumentosFiltrados", barCopia);
+		
+		JOptionPane.showMessageDialog(null,"Proceso finalizado.");
+		habilitarBotones();
 			
 
 		

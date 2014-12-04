@@ -32,6 +32,16 @@ public class Principal {
 		pantalla.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		pantalla.setVisible(true);
 		
-			}
+		
+		/*InicializadorDirectorios ini=new InicializadorDirectorios();
+		//System.out.println(ini.existeFichero());
+		File fichero = new File("H:\\Documentos Digitalizados\\1000\\02\\0000000B7DB481800");
+		String a=fichero.getAbsolutePath();
+		String b=fichero.getParent();
+		System.out.println(ini.darExtension(a,b));
+		
+		//String h="H:\\DocumentosFiltrados\\jo";
+	//	System.out.println(h.substring(0,h.lastIndexOf("\\")));
+*/			}
 
 }

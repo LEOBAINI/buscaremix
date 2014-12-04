@@ -9,7 +9,7 @@ import javax.swing.border.LineBorder;
 import Base.metodosSql;
 
 
-public class GeneradorDeRutas implements Runnable{
+public class GeneradorDeRutas {
 	JProgressBar bar;
 	int cantidadConsultas;
 	ArrayList<String>chasis;
@@ -29,12 +29,15 @@ public class GeneradorDeRutas implements Runnable{
 	
 		
 	
+/**
+ * Entrega la ruta al archivo/s sacado del sql, pero sin la extension
+ * @return
+ */
 
-	@Override
-	public void run() {
+	public ArrayList<String>entregarRutas() {
 		
 		ArrayList<String>rutas=new ArrayList<String>();
-		String sentenciaSql="select concat('C:/Documents and Settings/idmartin/Escritorio/Documentos Digitalizados/',numcaja,'/',sobre,barcode)" +
+		String sentenciaSql="select concat ('H:/Documentos Digitalizados/',numcaja,if(sobre is null,'/',concat('/',sobre,'/')),barcode)" +
 		" as 'Ruta a buscar' from flexibar.archivo where barcode=";
 		metodosSql metodos=new metodosSql();
 		int totalRegistros=chasis.size();
@@ -48,17 +51,24 @@ public class GeneradorDeRutas implements Runnable{
 		 bar.setBorder(thickBorder);
 		 
 		 String log;
+		 String ruta=null;
+		 int indiceRutas=0;
 		 for(int x=0;x<totalRegistros;x++){			
 			log=sentenciaSql+"'"+chasis.get(x)+"';";
-			rutas.add(metodos.consultaSimple(log));
-			area.append(rutas.get(x)+"\n");
+			ruta=metodos.consultaSimple(log);
+			if(ruta!=null){
+			ruta.replaceAll("/null","");
+			rutas.add(ruta);
+			
+						
+			area.append(rutas.get(indiceRutas)+"\n");
+			indiceRutas++;
+			}
 			bar.setValue(x);
 		 }
 		
-		 for(int i=0;i<rutas.size();i++){
-			 System.out.println("Direccion es "+rutas.get(i));
-			 
-		 }
+
+		return rutas;
 
 		
 		
