@@ -195,10 +195,13 @@ public class PantallaPrincipal extends JFrame {
 			jButtonProcesar.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 				jTextAreaLog.setText("");
-				
+				jButtonExaminar.setEnabled(false);
+				jButtonProcesar.setEnabled(false);
 				int columna=Integer.parseInt(jTextFieldColumnaAleer.getText());
-				Runnable lector=new LectorExcel(jTextAreaLog,jProgressBar,jProgressBarBase,jTextFieldRuta.getText(),columna);				
+				Runnable lector=new LectorExcel(jTextAreaLog,jProgressBar,jProgressBarBase,jProgressBarDatos,jTextFieldRuta.getText(),jButtonExaminar,jButtonProcesar,columna);				
 				new Thread(lector).start();//.start();
+				
+
 				}
 			});
 		}
