@@ -173,15 +173,21 @@ public class InicializadorDirectorios {
 		 LineBorder thickBorder = new LineBorder(Color.green,2);
 		 bar.setForeground(Color.BLACK);			
 		 bar.setBorder(thickBorder);
+		 EscribirArchivo log=new EscribirArchivo();
+			
+			
 		for(int i=0;i<tamanioOrigen;i++){
 			try {
 				//System.out.println("Comenzando copia");
 				copyFile(archivosOrigen.get(i), carpeta+archivosOrigen.get(i).substring(archivosOrigen.get(i).lastIndexOf("/")));
+				log.escribirContinuacionUnaLinea(carpeta+"\\logOk.txt","Copiado ok desde "+archivosOrigen.get(i)+" hasta "+carpeta);
 				bar.setValue(i+1);
 				//System.out.println("Archivo copiado");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
+				log.escribirContinuacionUnaLinea(carpeta+"\\logNoOk.txt","No copiado "+archivosOrigen.get(i).substring(archivosOrigen.get(i).lastIndexOf("/")+1,archivosOrigen.get(i).lastIndexOf("."))+"\t porque "+e.getMessage());
+				
+				System.out.println(e.getMessage());//;e.printStackTrace();
 			}
 		}
 		

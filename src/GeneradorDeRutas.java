@@ -16,16 +16,18 @@ public class GeneradorDeRutas {
 	ArrayList<String>rutas;
 	JTextArea area;
 	String rutaOrigen;
+	String rutaDestino;
 	
 	public ArrayList<String> getRutas() {
 		return rutas;
 	}
 
-	public GeneradorDeRutas(JProgressBar bar,String rutaOrigen, ArrayList<String>chasis, JTextArea area){
+	public GeneradorDeRutas(JProgressBar bar,String rutaOrigen,String rutaDestino, ArrayList<String>chasis, JTextArea area){
 		this.bar=bar;
 		this.chasis=chasis;
 		this.area=area;
 		this.rutaOrigen=rutaOrigen;
+		this.rutaDestino=rutaDestino;
 	}
 	
 	
@@ -52,7 +54,7 @@ public class GeneradorDeRutas {
 		 LineBorder thickBorder = new LineBorder(Color.green,2);
 		 bar.setForeground(Color.BLACK);			
 		 bar.setBorder(thickBorder);
-		 
+		 EscribirArchivo log1=new EscribirArchivo();
 		 String log;
 		 String ruta=null;
 		 int indiceRutas=0;
@@ -64,8 +66,11 @@ public class GeneradorDeRutas {
 			rutas.add(ruta);
 			
 						
-			area.append(rutas.get(indiceRutas)+"\n");
+			area.append("Se buscarán los archivos en "+rutas.get(indiceRutas)+"\n");
 			indiceRutas++;
+			}else{
+				
+				 log1.escribirContinuacionUnaLinea(rutaDestino+"\\logNoOk.txt","No copiado "+chasis.get(x)+"\t porque no está en la base de datos MySql");
 			}
 			bar.setValue(x);
 		 }

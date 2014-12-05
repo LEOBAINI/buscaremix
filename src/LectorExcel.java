@@ -49,9 +49,12 @@ public class LectorExcel implements Runnable{
 				workbook = Workbook.getWorkbook(new File(ruta));
 			} catch (BiffException e) {
 				
+				JOptionPane.showMessageDialog(null, e.getMessage());
+				habilitarBotones();
 				e.printStackTrace();
 			} catch (IOException e) {
-				
+				JOptionPane.showMessageDialog(null, e.getMessage());
+				habilitarBotones();
 				e.printStackTrace();
 			} 
 			ArrayList<String>contenido=new ArrayList<String>();
@@ -81,7 +84,8 @@ public class LectorExcel implements Runnable{
 			 area.append("SE LEYERON \t\t"+contenido.size()+"FILAS");
 			
 			 area.setText("");
-		GeneradorDeRutas gene=new GeneradorDeRutas(barQuery,rutaOrigen, contenido,area);		
+			 rutaDestino=rutaDestino.replace('\\', '/');
+		GeneradorDeRutas gene=new GeneradorDeRutas(barQuery,rutaOrigen,rutaDestino, contenido,area);		
 		ArrayList<String>rutasArchivos=null;
 		rutasArchivos=gene.entregarRutas();
 		
@@ -103,12 +107,19 @@ public class LectorExcel implements Runnable{
 			}
 			
 			}
-		rutaDestino=rutaDestino.replace('\\', '/');
+		
 		ini.copiarArchivosAruta(rutasCompletas,rutaDestino, barCopia);//rutadestino no debe terminar con "/"
 		
-		JOptionPane.showMessageDialog(null,"Proceso finalizado.");
+		
+		JOptionPane.showMessageDialog(null,"Proceso finalizado.\nPara más detalles, vea el LOG en su Carpeta de Destino.");
 		habilitarBotones();
+		try{
+			ini.abrirDirectorio(rutaDestino.replace('/','\\'));
+		}catch(Exception e){
 			
+		}
+		
+		
 
 		
 		
