@@ -15,15 +15,17 @@ public class GeneradorDeRutas {
 	ArrayList<String>chasis;
 	ArrayList<String>rutas;
 	JTextArea area;
+	String rutaOrigen;
 	
 	public ArrayList<String> getRutas() {
 		return rutas;
 	}
 
-	public GeneradorDeRutas(JProgressBar bar,ArrayList<String>chasis, JTextArea area){
+	public GeneradorDeRutas(JProgressBar bar,String rutaOrigen, ArrayList<String>chasis, JTextArea area){
 		this.bar=bar;
 		this.chasis=chasis;
 		this.area=area;
+		this.rutaOrigen=rutaOrigen;
 	}
 	
 	
@@ -37,7 +39,8 @@ public class GeneradorDeRutas {
 	public ArrayList<String>entregarRutas() {
 		
 		ArrayList<String>rutas=new ArrayList<String>();
-		String sentenciaSql="select concat ('H:/Documentos Digitalizados/',numcaja,if(sobre is null,'/',concat('/',sobre,'/')),barcode)" +
+		rutaOrigen=rutaOrigen.replace('\\', '/');
+		String sentenciaSql="select concat ('"+rutaOrigen+"/',numcaja,if(sobre is null,'/',concat('/',sobre,'/')),barcode)" +
 		" as 'Ruta a buscar' from flexibar.archivo where barcode=";
 		metodosSql metodos=new metodosSql();
 		int totalRegistros=chasis.size();

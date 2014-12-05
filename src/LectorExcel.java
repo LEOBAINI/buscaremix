@@ -20,10 +20,12 @@ public class LectorExcel implements Runnable{
 	JProgressBar barQuery;
 	JTextArea area;
 	String ruta;
+	String rutaOrigen;
+	String rutaDestino;
 	JButton buttonExaminar;
 	JButton buttonProcesar;
 	int columna=0;
-	public LectorExcel(JTextArea area,JProgressBar bar,JProgressBar barQuery,JProgressBar barCopia,String ruta,JButton buttonExaminar, JButton buttonProcesar, int columna){
+	public LectorExcel(JTextArea area,JProgressBar bar,JProgressBar barQuery,JProgressBar barCopia,String ruta,String rutaOrigen, String rutaDestino, JButton buttonExaminar, JButton buttonProcesar, int columna){
 		this.bar=bar;
 		this.area=area;
 		this.ruta=ruta;
@@ -32,6 +34,8 @@ public class LectorExcel implements Runnable{
 		this.barCopia=barCopia;
 		this.buttonExaminar=buttonExaminar;
 		this.buttonProcesar=buttonProcesar;
+		this.rutaOrigen=rutaOrigen;
+		this.rutaDestino=rutaDestino;
 	}
 
 	public void habilitarBotones(){
@@ -77,7 +81,7 @@ public class LectorExcel implements Runnable{
 			 area.append("SE LEYERON \t\t"+contenido.size()+"FILAS");
 			
 			 area.setText("");
-		GeneradorDeRutas gene=new GeneradorDeRutas(barQuery, contenido,area);		
+		GeneradorDeRutas gene=new GeneradorDeRutas(barQuery,rutaOrigen, contenido,area);		
 		ArrayList<String>rutasArchivos=null;
 		rutasArchivos=gene.entregarRutas();
 		
@@ -99,7 +103,8 @@ public class LectorExcel implements Runnable{
 			}
 			
 			}
-		ini.copiarArchivosAruta(rutasCompletas,"H:/DocumentosFiltrados", barCopia);
+		rutaDestino=rutaDestino.replace('\\', '/');
+		ini.copiarArchivosAruta(rutasCompletas,rutaDestino, barCopia);//rutadestino no debe terminar con "/"
 		
 		JOptionPane.showMessageDialog(null,"Proceso finalizado.");
 		habilitarBotones();
