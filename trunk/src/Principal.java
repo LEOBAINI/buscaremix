@@ -42,6 +42,12 @@ public class Principal {
 		
 		//String h="H:\\DocumentosFiltrados\\jo";
 	//	System.out.println(h.substring(0,h.lastIndexOf("\\")));
-*/			}
+	 * 
+*/		
+		
+	
+	
+	
+	}
 
 }

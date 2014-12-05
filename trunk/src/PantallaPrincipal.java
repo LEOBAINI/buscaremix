@@ -11,6 +11,8 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import java.awt.ScrollPane;
+
+import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
 import javax.swing.JScrollPane;
 import javax.swing.JProgressBar;
@@ -47,6 +49,7 @@ public class PantallaPrincipal extends JFrame {
 	private JLabel jLabel41 = null;
 	private JButton jButtonDestino = null;
 	private JTextField jTextFieldRutaDestino = null;
+	private JLabel jLabelColumnaAleer1 = null;
 	/**
 	 * This is the default constructor
 	 */
@@ -64,7 +67,7 @@ public class PantallaPrincipal extends JFrame {
 		this.setSize(1242, 529);
 		
 		this.setContentPane(getJContentPane());
-		this.setTitle("Buscador de remitos");
+		this.setTitle("Filtrador de Documentación");
 		//this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Imagenes/Camiones.jpg")));
 	}
 
@@ -76,6 +79,10 @@ public class PantallaPrincipal extends JFrame {
 	private JPanel getJContentPane() {
 		if (jContentPane == null) {
 		
+			jLabelColumnaAleer1 = new JLabel();
+			jLabelColumnaAleer1.setBounds(new Rectangle(215, 130, 224, 18));
+			jLabelColumnaAleer1.setText("(Donde están los chasis) la 1era es 0");
+			jLabelColumnaAleer1.setForeground(Color.white);
 			jLabel41 = new JLabel();
 			jLabel41.setBounds(new Rectangle(11, 56, 221, 17));
 			jLabel41.setText("Seleccione Carpeta de DESTINO");
@@ -135,6 +142,7 @@ public class PantallaPrincipal extends JFrame {
 			jContentPane.add(jLabel41, null);
 			jContentPane.add(getJButtonDestino(), null);
 			jContentPane.add(getJTextFieldRutaDestino(), null);
+			jContentPane.add(jLabelColumnaAleer1, null);
 		}
 		return jContentPane;
 	}
@@ -175,7 +183,7 @@ public class PantallaPrincipal extends JFrame {
 		if (jTextFieldRuta == null) {
 			jTextFieldRuta = new JTextField();
 			jTextFieldRuta.setBounds(new Rectangle(401, 11, 813, 20));
-			jTextFieldRuta.setText("D:\\Desktop\\Caja1003bis.xls");
+			jTextFieldRuta.setText("Ejemplo: D:\\Desktop\\Caja1003bis.xls");
 			LineBorder thickBorder = new LineBorder(Color.green,2);
 			jTextFieldRuta.setBorder(thickBorder);
 			jTextFieldRuta.setBackground(Color.white);
@@ -199,12 +207,17 @@ public class PantallaPrincipal extends JFrame {
 			jButtonProcesar.setBorder(thickBorder);
 			jButtonProcesar.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
+				try{
 				jTextAreaLog.setText("");
 				jButtonExaminar.setEnabled(false);
 				jButtonProcesar.setEnabled(false);
 				int columna=Integer.parseInt(jTextFieldColumnaAleer.getText());
 				Runnable lector=new LectorExcel(jTextAreaLog,jProgressBar,jProgressBarBase,jProgressBarDatos,jTextFieldRuta.getText(),jTextFieldRutaOrigen.getText(),jTextFieldRutaDestino.getText(),jButtonExaminar,jButtonProcesar,columna);				
 				new Thread(lector).start();//.start();
+				
+				}catch(Exception e1){
+					JOptionPane.showMessageDialog(null,e1.getMessage());
+				}
 				
 
 				}
@@ -346,7 +359,7 @@ public class PantallaPrincipal extends JFrame {
 			jTextFieldRutaOrigen = new JTextField();
 			jTextFieldRutaOrigen.setBounds(new Rectangle(401, 34, 812, 21));
 			jTextFieldRutaOrigen.setBorder(new LineBorder(Color.green, 2));
-			jTextFieldRutaOrigen.setText("H:\\Documentos Digitalizados");
+			jTextFieldRutaOrigen.setText("Ejemplo: H:\\Documentos Digitalizados");
 			jTextFieldRutaOrigen.setBackground(Color.white);
 		}
 		return jTextFieldRutaOrigen;
@@ -387,7 +400,7 @@ public class PantallaPrincipal extends JFrame {
 			jTextFieldRutaDestino = new JTextField();
 			jTextFieldRutaDestino.setBounds(new Rectangle(401, 57, 811, 25));
 			jTextFieldRutaDestino.setBorder(new LineBorder(Color.green, 2));
-			jTextFieldRutaDestino.setText("H:\\DocumentosFiltrados");
+			jTextFieldRutaDestino.setText("Ejemplo: H:\\DocumentosFiltrados");
 			jTextFieldRutaDestino.setBackground(Color.white);
 		}
 		return jTextFieldRutaDestino;
