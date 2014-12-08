@@ -1,7 +1,6 @@
 
 import javax.swing.JFileChooser;
 
-import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 
@@ -9,9 +8,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class FileChooser {
 
 	public String lanzarSeleccionDeCarpeta(){
-		String ruta=null;
-		//Creamos selector de apertura
-
 		JFileChooser chooser = new JFileChooser();
 
 		chooser.setCurrentDirectory(new java.io.File("."));
@@ -49,9 +45,6 @@ public class FileChooser {
 
 		}
 public String lanzarSeleccion(){
-String ruta=null;
-//Creamos selector de apertura
-
 JFileChooser chooser = new JFileChooser();
 
 chooser.setCurrentDirectory(new java.io.File("."));

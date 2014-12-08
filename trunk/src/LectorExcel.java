@@ -10,7 +10,6 @@ import javax.swing.JTextArea;
 
 import jxl.Sheet;
 import jxl.Workbook;
-import jxl.format.Border;
 import jxl.read.biff.BiffException;
 
 
@@ -87,13 +86,14 @@ public class LectorExcel implements Runnable{
 			 rutaDestino=rutaDestino.replace('\\', '/');
 		GeneradorDeRutas gene=new GeneradorDeRutas(barQuery,rutaOrigen,rutaDestino, contenido,area);		
 		ArrayList<String>rutasArchivos=null;
-		rutasArchivos=gene.entregarRutas();
+		rutasArchivos=gene.entregarRutas(area);
 		
 		ArrayList<String>rutasCompletas=new ArrayList<String>();
 		InicializadorDirectorios ini=new InicializadorDirectorios();
 		
 		String extension=null;
 		String rutaalaCarpeta=null;
+		EscribirArchivo log=new EscribirArchivo();
 		for(int i=0;i<rutasArchivos.size();i++){
 			try{
 			rutaalaCarpeta=rutasArchivos.get(i).substring(0,rutasArchivos.get(i).lastIndexOf("/"));
@@ -103,15 +103,17 @@ public class LectorExcel implements Runnable{
 			rutasCompletas.add(rutasArchivos.get(i)+extension);
 			
 			}catch(Exception e){
-				System.out.println(e.getMessage());
+				log.escribirContinuacionUnaLinea(rutaDestino+"\\logNoOk.txt","No copiado "+rutasArchivos.get(i).substring(rutasArchivos.get(i).lastIndexOf("/")+1)+"  porque el archivo no se encuentra en "+rutaalaCarpeta);
 			}
 			
 			}
 		
-		ini.copiarArchivosAruta(rutasCompletas,rutaDestino, barCopia);//rutadestino no debe terminar con "/"
-		
-		
+		ini.copiarArchivosAruta(rutasCompletas,rutaDestino, barCopia, area);//rutadestino no debe terminar con "/"
+		if(	barCopia.getValue()==barCopia.getMaximum()){
 		JOptionPane.showMessageDialog(null,"Proceso finalizado.\nPara más detalles, vea el LOG en su Carpeta de Destino.");
+		}else{
+		JOptionPane.showMessageDialog(null,"Proceso finalizado con errores.\nPara más detalles, vea el LOG en su Carpeta de Destino.");	
+		}
 		habilitarBotones();
 		try{
 			ini.abrirDirectorio(rutaDestino.replace('/','\\'));

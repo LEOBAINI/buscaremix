@@ -67,6 +67,7 @@ public class metodosSql extends ConexionMySql {
 			
 
 		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
 			System.out.println("Error en metodosSql.consultarUnaColumna"+e.getMessage());
 			
 		}

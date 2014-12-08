@@ -81,7 +81,7 @@ public class PantallaPrincipal extends JFrame {
 		
 			jLabelColumnaAleer1 = new JLabel();
 			jLabelColumnaAleer1.setBounds(new Rectangle(215, 130, 224, 18));
-			jLabelColumnaAleer1.setText("(Donde están los chasis) la 1era es 0");
+			jLabelColumnaAleer1.setText("(Donde están los chasis) la 1era es 1");
 			jLabelColumnaAleer1.setForeground(Color.white);
 			jLabel41 = new JLabel();
 			jLabel41.setBounds(new Rectangle(11, 56, 221, 17));
@@ -212,6 +212,7 @@ public class PantallaPrincipal extends JFrame {
 				jButtonExaminar.setEnabled(false);
 				jButtonProcesar.setEnabled(false);
 				int columna=Integer.parseInt(jTextFieldColumnaAleer.getText());
+				columna=columna-1;
 				Runnable lector=new LectorExcel(jTextAreaLog,jProgressBar,jProgressBarBase,jProgressBarDatos,jTextFieldRuta.getText(),jTextFieldRutaOrigen.getText(),jTextFieldRutaDestino.getText(),jButtonExaminar,jButtonProcesar,columna);				
 				new Thread(lector).start();//.start();
 				
@@ -318,7 +319,7 @@ public class PantallaPrincipal extends JFrame {
 			jTextFieldColumnaAleer = new JTextField();
 			jTextFieldColumnaAleer.setBounds(new Rectangle(113, 129, 98, 20));
 			jTextFieldColumnaAleer.setBorder(new LineBorder(Color.green, 2));
-			jTextFieldColumnaAleer.setText("0");
+			jTextFieldColumnaAleer.setText("1");
 			jTextFieldColumnaAleer.setBackground(Color.white);
 		}
 		return jTextFieldColumnaAleer;

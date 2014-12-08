@@ -2,6 +2,8 @@ package Base;
 
 import java.sql.*;
 
+import javax.swing.JOptionPane;
+
 
 
 public class ConexionMySql {
@@ -60,13 +62,14 @@ public class ConexionMySql {
                status=1;
 
             }catch(ClassNotFoundException e1){
+            JOptionPane.showMessageDialog(null, "Error en los drivers");
              System.out.println("Error en los drivers");
              status=0;
             
             }
             catch(SQLException e2){
                 System.out.println("Error en la conexion");
-                
+                JOptionPane.showMessageDialog(null, e2.getLocalizedMessage());
                 System.out.println(e2.getLocalizedMessage());
                 status=0;
                 
