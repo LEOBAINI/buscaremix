@@ -1,5 +1,4 @@
 import java.awt.Color;
-import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import javax.swing.JProgressBar;
@@ -38,7 +37,7 @@ public class GeneradorDeRutas {
  * @return
  */
 
-	public ArrayList<String>entregarRutas() {
+	public ArrayList<String>entregarRutas(JTextArea areaLog) {
 		
 		ArrayList<String>rutas=new ArrayList<String>();
 		rutaOrigen=rutaOrigen.replace('\\', '/');
@@ -71,6 +70,8 @@ public class GeneradorDeRutas {
 			}else{
 				
 				 log1.escribirContinuacionUnaLinea(rutaDestino+"\\logNoOk.txt","No copiado "+chasis.get(x)+"\t porque no está en la base de datos MySql");
+				 areaLog.append("Error al copiar "+chasis.get(x)+" porque no está en la base de datos MySql\n");
+			
 			}
 			bar.setValue(x);
 		 }

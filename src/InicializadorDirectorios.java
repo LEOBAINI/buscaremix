@@ -17,6 +17,7 @@ import java.util.Locale;
 
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
+import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 public class InicializadorDirectorios {
 	
@@ -163,7 +164,7 @@ public class InicializadorDirectorios {
 	 * @param archivosDestino carpeta
 	 * @param bar
 	 */
-	public void copiarArchivosAruta(ArrayList<String>archivosOrigen,String carpeta,JProgressBar bar){
+	public void copiarArchivosAruta(ArrayList<String>archivosOrigen,String carpeta,JProgressBar bar,JTextArea areaLog){
 		int tamanioOrigen=archivosOrigen.size();
 		bar.setMaximum(tamanioOrigen);
 		 bar.setStringPainted(true);
@@ -178,15 +179,25 @@ public class InicializadorDirectorios {
 			
 		for(int i=0;i<tamanioOrigen;i++){
 			try {
+				if(existeFichero(archivosOrigen.get(i))){
 				//System.out.println("Comenzando copia");
-				copyFile(archivosOrigen.get(i), carpeta+archivosOrigen.get(i).substring(archivosOrigen.get(i).lastIndexOf("/")));
+				String origen=archivosOrigen.get(i);
+				String destino=carpeta+archivosOrigen.get(i).substring(archivosOrigen.get(i).lastIndexOf("/"));
+				copyFile(origen, destino);
 				log.escribirContinuacionUnaLinea(carpeta+"\\logOk.txt","Copiado ok desde "+archivosOrigen.get(i)+" hasta "+carpeta);
 				bar.setValue(i+1);
+				areaLog.append("Copiando "+origen+" a "+destino+"\n");
+				}else{
+					log.escribirContinuacionUnaLinea(carpeta+"\\logNoOk.txt","No copiado "+archivosOrigen.get(i).substring(archivosOrigen.get(i).lastIndexOf("/")+1,archivosOrigen.get(i).lastIndexOf("."))+"\t porque el archivo no está en "+archivosOrigen.get(i).substring(0, archivosOrigen.get(i).lastIndexOf("/")));
+					bar.setValue(i+1);
+					areaLog.append("Error al copiar "+archivosOrigen.get(i)+"\n");
+				
+				}
 				//System.out.println("Archivo copiado");
 			} catch (IOException e) {
 				
 				log.escribirContinuacionUnaLinea(carpeta+"\\logNoOk.txt","No copiado "+archivosOrigen.get(i).substring(archivosOrigen.get(i).lastIndexOf("/")+1,archivosOrigen.get(i).lastIndexOf("."))+"\t porque "+e.getMessage());
-				
+				areaLog.append("Error al copiar "+archivosOrigen.get(i)+"porque "+e.getMessage()+"\n");
 				System.out.println(e.getMessage());//;e.printStackTrace();
 			}
 		}
