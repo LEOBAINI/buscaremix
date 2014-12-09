@@ -41,8 +41,12 @@ public class GeneradorDeRutas {
 		
 		ArrayList<String>rutas=new ArrayList<String>();
 		rutaOrigen=rutaOrigen.replace('\\', '/');
-		String sentenciaSql="select concat ('"+rutaOrigen+"/',numcaja,if(sobre is null,'/',concat('/',sobre,'/')),barcode)" +
+		String sentenciaSql="select concat ('"+rutaOrigen+"/',numcaja,if(sobre is null,'/',concat('/',if(LENGTH(sobre)=1,concat(0,sobre),sobre),'/')),barcode)" +
 		" as 'Ruta a buscar' from flexibar.archivo where barcode=";
+		
+		
+		
+		
 		metodosSql metodos=new metodosSql();
 		int totalRegistros=chasis.size();
 		 bar.setStringPainted(true);
