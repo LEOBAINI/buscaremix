@@ -81,12 +81,15 @@ public class LectorExcel implements Runnable{
 				// System.out.println(contenido.get(x));
 			 }
 			 area.append("SE LEYERON \t\t"+contenido.size()+"FILAS");
+			 
+			 // Hasta acá leyo el excel
 			
-			 area.setText("");
+			 
 			 rutaDestino=rutaDestino.replace('\\', '/');
+			 
 		GeneradorDeRutas gene=new GeneradorDeRutas(barQuery,rutaOrigen,rutaDestino, contenido,area);		
 		ArrayList<String>rutasArchivos=null;
-		rutasArchivos=gene.entregarRutas(area);
+		rutasArchivos=gene.entregarRutas(area);// Obtiene las rutas del SQL de los archivos pero sin la extensión
 		
 		ArrayList<String>rutasCompletas=new ArrayList<String>();
 		InicializadorDirectorios ini=new InicializadorDirectorios();
@@ -96,14 +99,18 @@ public class LectorExcel implements Runnable{
 		EscribirArchivo log=new EscribirArchivo();
 		for(int i=0;i<rutasArchivos.size();i++){
 			try{
-			rutaalaCarpeta=rutasArchivos.get(i).substring(0,rutasArchivos.get(i).lastIndexOf("/"));
+			rutaalaCarpeta=rutasArchivos.get(i).substring(0,rutasArchivos.get(i).lastIndexOf("/"));// El directorio donde está el archivo
 			
-			extension=ini.darExtension(rutasArchivos.get(i), rutaalaCarpeta);
-			
-			rutasCompletas.add(rutasArchivos.get(i)+extension);
+			extension=ini.darExtension(rutasArchivos.get(i), rutaalaCarpeta);// obtiene la extension del archivo
+			if(extension!=null){
+			rutasCompletas.add(rutasArchivos.get(i)+extension);// carga la ruta completa al archivo
+			}else{
+				log.escribirContinuacionUnaLinea(rutaDestino+"\\logNoOk.txt","No copiado "+rutasArchivos.get(i).substring(rutasArchivos.get(i).lastIndexOf("/")+1)+"\t porque el archivo no se encuentra en "+rutaalaCarpeta);
+			}
 			
 			}catch(Exception e){
-				log.escribirContinuacionUnaLinea(rutaDestino+"\\logNoOk.txt","No copiado "+rutasArchivos.get(i).substring(rutasArchivos.get(i).lastIndexOf("/")+1)+"  porque el archivo no se encuentra en "+rutaalaCarpeta);
+				
+				log.escribirContinuacionUnaLinea(rutaDestino+"\\logNoOk.txt","No copiado "+rutasArchivos.get(i).substring(rutasArchivos.get(i).lastIndexOf("/")+1)+"\t porque el archivo no se encuentra en "+rutaalaCarpeta);
 			}
 			
 			}
