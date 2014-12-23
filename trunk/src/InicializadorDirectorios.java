@@ -98,24 +98,25 @@ public class InicializadorDirectorios {
 	 * Da la extension de un archivo dado
 	 * @param archivoSinext (ruta completa al arch sin ext)
 	 * @param ruta ruta a la carpeta
-	 * @return
+	 * @return 
 	 */
 	public String darExtension(String archivoSinext,String ruta){
 		String extension=null;
 		File folder = new File(ruta);
+		archivoSinext=archivoSinext.substring(archivoSinext.lastIndexOf("/")+1,archivoSinext.length()-1);
 		
-		
-		 File[] ficheros = folder.listFiles();		
+		 File[] ficheros = folder.listFiles();	//Lista los archivos	
 
 
 		
 		 for(int i=0;i<ficheros.length;i++){
 			 
-			 ficheros[i].toString().contains(ruta);
-			 extension= ficheros[i].toString();
+			 if(ficheros[i].toString().contains(archivoSinext)&&!esDirectorio(ficheros[i].toString())){
+			 extension = ficheros[i].toString();
 			 extension=extension.substring(extension.length()-4);//largo de la extension
 			 System.out.println(extension);
 			 return extension;
+			 }
 		 }
 		return extension;
 	}

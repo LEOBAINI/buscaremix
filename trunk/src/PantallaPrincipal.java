@@ -22,6 +22,9 @@ import javax.swing.plaf.ColorChooserUI;
 import javax.swing.text.DefaultCaret;
 
 import jxl.write.Border;
+import javax.swing.JToggleButton;
+import javax.swing.JRadioButton;
+import javax.swing.JCheckBox;
 
 
 public class PantallaPrincipal extends JFrame {
@@ -50,6 +53,10 @@ public class PantallaPrincipal extends JFrame {
 	private JButton jButtonDestino = null;
 	private JTextField jTextFieldRutaDestino = null;
 	private JLabel jLabelColumnaAleer1 = null;
+	private JCheckBox jCheckBoxRemitos = null;
+	private JCheckBox jCheckBoxCporte = null;
+	private JLabel jLabelRemito = null;
+	private JLabel jLabelCporte = null;
 	/**
 	 * This is the default constructor
 	 */
@@ -79,6 +86,14 @@ public class PantallaPrincipal extends JFrame {
 	private JPanel getJContentPane() {
 		if (jContentPane == null) {
 		
+			jLabelCporte = new JLabel();
+			jLabelCporte.setBounds(new Rectangle(42, 374, 322, 18));
+			jLabelCporte.setText("Buscar Cartas de Porte (PUEDE CONTENER REMITOS)");
+			jLabelCporte.setForeground(Color.white);
+			jLabelRemito = new JLabel();
+			jLabelRemito.setBounds(new Rectangle(42, 351, 321, 19));
+			jLabelRemito.setText("Buscar Remitos (CONTIENE CARTAS DE PORTE)");
+			jLabelRemito.setForeground(Color.white);
 			jLabelColumnaAleer1 = new JLabel();
 			jLabelColumnaAleer1.setBounds(new Rectangle(215, 130, 224, 18));
 			jLabelColumnaAleer1.setText("(Donde están los chasis) la 1era es 1");
@@ -143,6 +158,10 @@ public class PantallaPrincipal extends JFrame {
 			jContentPane.add(getJButtonDestino(), null);
 			jContentPane.add(getJTextFieldRutaDestino(), null);
 			jContentPane.add(jLabelColumnaAleer1, null);
+			jContentPane.add(getJCheckBoxRemitos(), null);
+			jContentPane.add(getJCheckBoxCporte(), null);
+			jContentPane.add(jLabelRemito, null);
+			jContentPane.add(jLabelCporte, null);
 		}
 		return jContentPane;
 	}
@@ -405,6 +424,53 @@ public class PantallaPrincipal extends JFrame {
 			jTextFieldRutaDestino.setBackground(Color.white);
 		}
 		return jTextFieldRutaDestino;
+	}
+
+	/**
+	 * This method initializes jCheckBoxRemitos	
+	 * 	
+	 * @return javax.swing.JCheckBox	
+	 */
+	private JCheckBox getJCheckBoxRemitos() {
+		if (jCheckBoxRemitos == null) {
+			jCheckBoxRemitos = new JCheckBox();
+			jCheckBoxRemitos.setBackground(Color.yellow);
+			jCheckBoxRemitos.setForeground(Color.red);
+			LineBorder thickBorder = new LineBorder(Color.green,2);
+			jCheckBoxRemitos.setBorder(thickBorder);
+			jCheckBoxRemitos.setBorderPainted(true);
+			
+			jCheckBoxRemitos.setBounds(new Rectangle(16, 351, 17, 17));
+			jCheckBoxRemitos.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					jCheckBoxCporte.setSelected(false);
+				}
+			});
+		}
+		return jCheckBoxRemitos;
+	}
+
+	/**
+	 * This method initializes jCheckBoxCporte	
+	 * 	
+	 * @return javax.swing.JCheckBox	
+	 */
+	private JCheckBox getJCheckBoxCporte() {
+		if (jCheckBoxCporte == null) {
+			jCheckBoxCporte = new JCheckBox();
+			jCheckBoxCporte.setBounds(new Rectangle(16, 375, 17, 17));
+			jCheckBoxCporte.setForeground(Color.red);
+			jCheckBoxCporte.setBorder(new LineBorder(Color.green, 2));
+			jCheckBoxCporte.setBackground(Color.yellow);
+			jCheckBoxCporte.setBorderPainted(true);
+			jCheckBoxCporte.setSelected(true);
+			jCheckBoxCporte.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					jCheckBoxRemitos.setSelected(false);
+				}
+			});
+		}
+		return jCheckBoxCporte;
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"
